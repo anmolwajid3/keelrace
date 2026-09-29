@@ -1,0 +1,3 @@
+tests/.env
+reproducibility/_out/
+reproducibility/external/requirements-xml.zip

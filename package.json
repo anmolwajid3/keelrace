@@ -1,0 +1,13 @@
+{
+  "name": "keelrace",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "reproduce": "node scripts/reproduce.mjs",
+    "smoke": "node scripts/reproduce.mjs --smoke",
+    "cassette": "node scripts/reproduce.mjs --build-cassette",
+    "test:eval": "node --test tests/cassette-eval.test.mjs",
+    "test:timearch": "npm --prefix frontend run test:timearch"
+  }
+}

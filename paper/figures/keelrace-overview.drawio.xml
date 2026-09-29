@@ -1,0 +1,177 @@
+<mxfile host="app.diagrams.net" modified="2026-09-24T19:00:00.000Z" agent="KeelRace" version="22.1.0" type="device">
+  <diagram id="keelrace-overview" name="KeelRace Overview">
+    <mxGraphModel dx="1400" dy="900" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="827" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- Title note -->
+        <mxCell id="title" value="KeelRace: orchestrated propose-only agents + governed approval (edit freely in diagrams.net)" style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontStyle=1;fontSize=14;" vertex="1" parent="1">
+          <mxGeometry x="40" y="20" width="720" height="30" as="geometry" />
+        </mxCell>
+
+        <!-- Human -->
+        <mxCell id="human" value="Human architect&#xa;accept / dismiss / approve" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="480" y="60" width="200" height="60" as="geometry" />
+        </mxCell>
+
+        <!-- Orchestrator -->
+        <mxCell id="orch" value="Orchestrator&#xa;(architect-assist dispatcher)&#xa;routes action → agent role" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontStyle=1;align=center;" vertex="1" parent="1">
+          <mxGeometry x="460" y="160" width="240" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- RAG -->
+        <mxCell id="rag" value="Architecture knowledge&#xa;(RAG / FTS)&#xa;ADD · ATAM · tactics · MADR" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#e1d5e7;strokeColor=#9673a6;align=center;" vertex="1" parent="1">
+          <mxGeometry x="760" y="160" width="200" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Shared store -->
+        <mxCell id="store" value="Shared project store (communication medium)&#xa;requirements · drivers · candidates · findings · ADRs · walks · gates · documents&#xa;Agents do not message each other directly — they read/write this store." style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;align=center;fontStyle=0;" vertex="1" parent="1">
+          <mxGeometry x="200" y="280" width="760" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Agent swimlane -->
+        <mxCell id="agentsBox" value="Propose-only agent roles" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#f5f5f5;strokeColor=#666666;startSize=28;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="390" width="1080" height="160" as="geometry" />
+        </mxCell>
+
+        <mxCell id="a1" value="Requirements&#xa;Critic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" vertex="1" parent="agentsBox">
+          <mxGeometry x="40" y="45" width="110" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a2" value="Driver&#xa;Extractor" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" vertex="1" parent="agentsBox">
+          <mxGeometry x="170" y="45" width="110" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a3" value="Candidate&#xa;Generator" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" vertex="1" parent="agentsBox">
+          <mxGeometry x="300" y="45" width="110" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a4" value="Challenger&#xa;/ Critic" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" vertex="1" parent="agentsBox">
+          <mxGeometry x="430" y="45" width="110" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a5" value="Evaluation&#xa;Workshop&#xa;(scenarios, walks,&#xa;trade-offs)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" vertex="1" parent="agentsBox">
+          <mxGeometry x="560" y="45" width="130" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a6" value="ADR&#xa;Drafter" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" vertex="1" parent="agentsBox">
+          <mxGeometry x="710" y="45" width="110" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a7" value="Change&#xa;Brief" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" vertex="1" parent="agentsBox">
+          <mxGeometry x="840" y="45" width="100" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="a8" value="Ask /&#xa;Map / Views" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;align=center;" vertex="1" parent="agentsBox">
+          <mxGeometry x="960" y="45" width="100" height="90" as="geometry" />
+        </mxCell>
+
+        <!-- Governance boundary -->
+        <mxCell id="govBox" value="Deterministic governance (agents cannot enter)" style="swimlane;horizontal=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;startSize=28;fontStyle=1;" vertex="1" parent="1">
+          <mxGeometry x="40" y="590" width="1080" height="140" as="geometry" />
+        </mxCell>
+
+        <mxCell id="g1" value="1. Lock&#xa;RequirementSet" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=center;" vertex="1" parent="govBox">
+          <mxGeometry x="40" y="45" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g2" value="2. Generate&#xa;HLD / LLD&#xa;(uses accepted drivers)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=center;" vertex="1" parent="govBox">
+          <mxGeometry x="190" y="45" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g3" value="3. Cite NFRs&#xa;/ spikes" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=center;" vertex="1" parent="govBox">
+          <mxGeometry x="360" y="45" width="120" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g4" value="4. Review gate&#xa;(human decision)" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=center;" vertex="1" parent="govBox">
+          <mxGeometry x="510" y="45" width="140" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g5" value="5. approve_design_&#xa;document()" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontStyle=1;align=center;" vertex="1" parent="govBox">
+          <mxGeometry x="680" y="45" width="160" height="70" as="geometry" />
+        </mxCell>
+        <mxCell id="g6" value="6. Two-door&#xa;change" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#ffe6cc;strokeColor=#d79b00;align=center;" vertex="1" parent="govBox">
+          <mxGeometry x="870" y="45" width="120" height="70" as="geometry" />
+        </mxCell>
+
+        <!-- Legend -->
+        <mxCell id="leg" value="Legend&#xa;Green = propose-only agent roles&#xa;Orange = governed progression&#xa;Red border = approval authority&#xa;Grey store = how agents &quot;communicate&quot;" style="rounded=0;whiteSpace=wrap;html=1;align=left;fillColor=#ffffff;strokeColor=#999999;fontSize=11;spacingLeft=8;" vertex="1" parent="1">
+          <mxGeometry x="40" y="60" width="280" height="100" as="geometry" />
+        </mxCell>
+
+        <!-- Edges: human <-> orch -->
+        <mxCell id="e1" style="endArrow=classic;startArrow=classic;html=1;rounded=0;strokeWidth=1.5;" edge="1" parent="1" source="human" target="orch">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e1l" value="invoke / review" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];fontSize=10;" vertex="1" connectable="0" parent="e1">
+          <mxGeometry x="-0.1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- orch -> rag -->
+        <mxCell id="e2" style="endArrow=classic;html=1;rounded=0;dashed=1;strokeWidth=1.2;" edge="1" parent="1" source="orch" target="rag">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2l" value="retrieve chunks" style="edgeLabel;html=1;align=center;fontSize=10;" vertex="1" connectable="0" parent="e2">
+          <mxGeometry x="-0.2" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- orch -> store -->
+        <mxCell id="e3" style="endArrow=classic;startArrow=classic;html=1;rounded=0;strokeWidth=1.5;" edge="1" parent="1" source="orch" target="store">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3l" value="dispatch + persist proposals" style="edgeLabel;html=1;align=center;fontSize=10;" vertex="1" connectable="0" parent="e3">
+          <mxGeometry x="-0.1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- store -> agents (conceptual) -->
+        <mxCell id="e4" style="endArrow=classic;startArrow=classic;html=1;rounded=0;dashed=1;strokeWidth=1.2;strokeColor=#82b366;" edge="1" parent="1" source="store" target="agentsBox">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4l" value="read context / write proposals" style="edgeLabel;html=1;align=center;fontSize=10;" vertex="1" connectable="0" parent="e4">
+          <mxGeometry x="-0.05" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- blocked: agents to approval -->
+        <mxCell id="e5" style="endArrow=block;html=1;rounded=0;dashed=1;strokeWidth=2;strokeColor=#b85450;" edge="1" parent="1" source="agentsBox" target="g5">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="1120" y="470" />
+              <mxPoint x="1120" y="670" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e5l" value="no write path&#xa;(blocked)" style="edgeLabel;html=1;align=center;fontSize=10;fontColor=#b85450;fontStyle=1;" vertex="1" connectable="0" parent="e5">
+          <mxGeometry x="-0.1" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- human to review/approve -->
+        <mxCell id="e6" style="endArrow=classic;html=1;rounded=0;strokeWidth=1.5;strokeColor=#d79b00;" edge="1" parent="1" source="human" target="g4">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="680" y="90" />
+              <mxPoint x="680" y="250" />
+              <mxPoint x="120" y="250" />
+              <mxPoint x="120" y="570" />
+              <mxPoint x="620" y="570" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6l" value="only human opens gate / approval" style="edgeLabel;html=1;align=center;fontSize=10;fontColor=#d79b00;" vertex="1" connectable="0" parent="e6">
+          <mxGeometry x="-0.55" relative="1" as="geometry"><mxPoint as="offset" /></mxGeometry>
+        </mxCell>
+
+        <!-- governance chain -->
+        <mxCell id="eg1" style="endArrow=classic;html=1;rounded=0;strokeWidth=1.2;strokeColor=#d79b00;" edge="1" parent="govBox" source="g1" target="g2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg2" style="endArrow=classic;html=1;rounded=0;strokeWidth=1.2;strokeColor=#d79b00;" edge="1" parent="govBox" source="g2" target="g3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg3" style="endArrow=classic;html=1;rounded=0;strokeWidth=1.2;strokeColor=#d79b00;" edge="1" parent="govBox" source="g3" target="g4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg4" style="endArrow=classic;html=1;rounded=0;strokeWidth=1.2;strokeColor=#b85450;" edge="1" parent="govBox" source="g4" target="g5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eg5" style="endArrow=classic;html=1;rounded=0;strokeWidth=1.2;strokeColor=#d79b00;" edge="1" parent="govBox" source="g5" target="g6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+
+        <!-- sequential agent handoff note via store -->
+        <mxCell id="note2" value="Typical hand-off via store: Critic → Driver → Candidate → Challenger → Evaluation → ADR draft.&#xa;Each role reads prior accepted/proposed rows; no peer-to-peer agent chat." style="text;html=1;strokeColor=none;fillColor=none;align=left;verticalAlign=middle;fontSize=11;fontColor=#333333;" vertex="1" parent="1">
+          <mxGeometry x="40" y="750" width="900" height="40" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

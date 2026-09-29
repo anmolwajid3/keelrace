@@ -1,0 +1,49 @@
+# FR-4.1: "System, triggered per-commit or per-PR". This is a worked example,
+# not something wired into the repo automatically -- adapt the diff-computation
+# step to however your build actually knows which interfaces/dependencies changed.
+name: keelrace-drift-check
+
+on:
+  pull_request:
+
+jobs:
+  detect-drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute file hashes and diff signal
+        id: diff
+        run: |
+          # This is where you compute, per changed file that maps to a
+          # code_artifact row, whether its public interface changed, whether a
+          # dependency edge changed, or an undeclared boundary was crossed.
+          # The example below just hashes one file end to end -- replace with
+          # your own logic (e.g. comparing an OpenAPI/TS interface extract
+          # before/after, or a call-graph diff).
+          BASELINE_HASH=$(git show origin/main:src/example.ts | sha256sum | cut -d' ' -f1)
+          CURRENT_HASH=$(sha256sum src/example.ts | cut -d' ' -f1)
+          echo "baseline_hash=$BASELINE_HASH" >> "$GITHUB_OUTPUT"
+          echo "current_hash=$CURRENT_HASH" >> "$GITHUB_OUTPUT"
+
+      - name: Report to KeelRace
+        env:
+          KEELRACE_URL: ${{ secrets.KEELRACE_SUPABASE_URL }}
+          KEELRACE_SERVICE_KEY: ${{ secrets.KEELRACE_SERVICE_ROLE_KEY }}
+          CODE_ARTIFACT_ID: ${{ vars.CODE_ARTIFACT_ID_FOR_SRC_EXAMPLE_TS }}
+        run: |
+          curl -sf -X POST "$KEELRACE_URL/functions/v1/detect-drift" \
+            -H "Authorization: Bearer $KEELRACE_SERVICE_KEY" \
+            -H "apikey: $KEELRACE_SERVICE_KEY" \
+            -H "Content-Type: application/json" \
+            -d '{
+                  "code_artifact_id": "'"$CODE_ARTIFACT_ID"'",
+                  "baseline_hash": "'"${{ steps.diff.outputs.baseline_hash }}"'",
+                  "current_hash": "'"${{ steps.diff.outputs.current_hash }}"'",
+                  "diff": {
+                    "summary": "describe what the diff does to any standing rule",
+                    "claimed_ending": "the allowed ending this diff still uses, or the new ending it introduces"
+                  }
+                }'

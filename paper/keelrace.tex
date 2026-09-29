@@ -1,0 +1,412 @@
+\documentclass[conference]{IEEEtran}
+\IEEEoverridecommandlockouts
+\usepackage{cite}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}
+
+\begin{document}
+
+\title{KeelRace: Governed Multi-Agent Assistance for Architecture Design}
+
+\author{\IEEEauthorblockN{Anonymous Author(s)}
+\IEEEauthorblockA{Paper submitted for double-anonymous review to\\
+the 24th IEEE International Conference on Software Architecture (ICSA 2027).}}
+
+\maketitle
+
+\begin{abstract}
+Large Language Models (LLMs) can draft requirements, views, and Architecture Decision Records (ADRs), yet they do not preserve the authority boundary that separates architectural proposal from architectural approval.
+Without that boundary, generated text can be mistaken for an accepted High-Level Design (HLD), an accepted ADR, or a locked requirement baseline.
+We present KeelRace, an approach that structures requirements-driven architecture work as a governed progression from locked requirements to reviewed design artefacts, while restricting LLM agents to propose-only assistance.
+Deterministic database constraints and review gates own approval.
+Assist agents may criticise requirements, extract architectural drivers, propose candidates and evaluation scenarios, draft ADR alternatives, and prepare change briefs, but they cannot approve a design document or choose an ADR option on behalf of the architect.
+We evaluate KeelRace under a multi-layer validation protocol on seven published documents: three Software Requirements Specifications from PURE, three architecture-description dumps from ArDoCo (TeaStore, JabRef, TEAMMATES), and MoodFlow as a continuity case from prior multi-agent architecture work.
+Layer~1 checks lifecycle completeness; Layer~2 runs adversarial authority ablations; Layer~3 reports continuous coverage metrics; Layer~4 checks structural integrity under cassette replay.
+All seven cases complete lock and generation; seven misuse paths are rejected on every case (authority hold rate $1.0$); mean requirement-citation coverage is $0.69$; ADR drafts leave the chosen option empty on all cases; and N=10 replay yields coefficient of variation $0$.
+As in related work on evidence-grounded decision support, these measures assess enforceable process properties, not architectural fitness or human acceptance.
+A structured expert-review protocol is defined for adoption assessment and left as subsequent work.
+\end{abstract}
+
+\begin{IEEEkeywords}
+Software architecture, architectural decisions, Architecture Decision Records, governance, large language models, multi-agent systems, traceability, change impact, open science
+\end{IEEEkeywords}
+
+\section{Introduction}
+
+Software architecture design remains a decision-intensive activity in which requirements, quality attributes, alternatives, and rationale must stay inspectable as systems evolve~\cite{cervantes2026llms,bucaioni2025ai}.
+Recent Large Language Models (LLMs) accelerate drafting of code and design prose~\cite{dhar2024adr,pace2024archmind,cervantes2026llms}.
+Multi-agent systems further distribute generator, critic, and evaluator roles~\cite{li2025maad,sami2025multiagent,waseem2026timearch}.
+The remaining difficulty is not only generation quality, but \emph{authority}: whether a generated artefact may be treated as approved architecture without the checks an organisation would apply in the absence of a model.
+
+\paragraph{Context and challenges.}
+Current GenAI coding workflows often move from informal prompts to implementation with limited explicit architectural reasoning~\cite{waseem2026timearch}.
+LLM-assisted ADR work can produce relevant decision text when context is supplied, yet falls short of human-level dependability~\cite{dhar2024adr}.
+Studies of architects working with LLMs report useful option generation accompanied by distrust and incomplete system context~\cite{cervantes2026llms}.
+Surveys of AI for software architecture likewise warn against collapsing planning complexity into unconstrained generation~\cite{bucaioni2025ai}.
+In practice, these observations imply a concrete risk: a fluent HLD summary, an ADR draft, or a quality score produced by a model can be mistaken for organisational approval.
+
+\paragraph{Research gap.}
+Lifecycle-oriented multi-agent approaches such as TimeArch make architectural phases, retrieval grounding, and human gates explicit across requirements, design, validation, delivery, and evolution~\cite{waseem2026timearch}.
+Brownfield approaches such as BRIDGE connect a feature-change proposal to recovered repository evidence, candidate impacts, alternatives, and a candidate ADR, while separating deterministic evidence analysis from LLM decision reasoning~\cite{waseem2026bridge}.
+What remains insufficiently articulated for \emph{requirements-to-design} settings is a complementary authority separation: how to keep LLM agents productive for criticism, driver extraction, candidate comparison, and evaluation preparation, while making approval structurally impossible for those agents.
+Existing tools often store proposals and approvals in the same conversational surface, or rely on UI convention rather than enforceable constraints.
+
+\paragraph{Motivation.}
+If generative assistance can write a design document and also mark it approved, the organisation loses the distinction between drafting and commitment.
+Conversely, if assistance is banned from the architecture process, architects lose useful support for driver identification, alternative exploration, and change preparation.
+This paper therefore investigates a governed middle path: LLM agents propose; deterministic gates and named reviewers approve.
+
+\paragraph{Example.}
+Consider the PURE KeePass SRS requirement that opening a database must succeed only when every factor of a composite master key is present~\cite{ferrari2017pure}.
+A critic may flag unbounded password length as difficult to verify.
+Driver extraction surfaces confidentiality and local threat-model constraints.
+Candidate architectures may contrast a local encrypted store, an operating-system vault, and a networked service---the last of which conflicts with the stated threat model.
+None of these outputs is an approved HLD.
+Later, introducing an optional hardware-key factor is a change against a baseline: impact and triage must precede any reconvergence to a new locked requirement set.
+The same authority pattern applies when the input is not an SRS but a published architecture description, as with TeaStore in the ArDoCo benchmark~\cite{kistowski2018teastore,fuchss2023ardoco}.
+
+To address the gap, we propose \textbf{KeelRace}, an approach for requirements-driven architecture design that separates propose-only LLM assistance from database-enforced approval authority.
+KeelRace structures work as a governed progression---lock requirements, generate design artefacts, cite quality requirements, review, approve, and handle change through distinct doors---while assist agents produce provisional findings that an architect may accept or dismiss.
+The primary contributions of this paper are:
+\begin{itemize}
+\item A governed requirements-to-architecture approach that makes approval authority explicit and unreachable to LLM agents.
+\item A propose-only assist layer for criticism, architectural drivers, candidate architectures, evaluation scenarios, ADR drafting, and change preparation, with grounding labels that distinguish evidence-backed from speculative content.
+\item A cassette-based multi-layer validation protocol---lifecycle completeness, adversarial authority ablations, coverage metrics, and integrity checks---on published PURE and ArDoCo documents, with an explicit expert-review protocol for subsequent human assessment.
+\end{itemize}
+
+\section{Related Work}
+
+Recent reviews show that artificial intelligence supports architecture design, recovery, documentation, and decision support, while challenges remain in traceability, trustworthy reasoning, and fragmented evidence~\cite{bucaioni2025ai}.
+We organise the closest work around LLM-assisted decisions, multi-agent architecture workflows, and evidence-grounded evolution support.
+
+\subsection{LLM-Assisted Architectural Decisions and ADRs}
+Dhar \textit{et al.} show that LLMs can generate ADR decision text yet do not reach human-level performance~\cite{dhar2024adr}.
+ArchMind helps novices capture ADRs from pattern and system context; records were often well justified but missed system-specific detail~\cite{pace2024archmind}.
+Cervantes, Cai, and Kazman find that LLMs surface relevant options while architects retain the decision, frequently citing missing context as a reason for distrust~\cite{cervantes2026llms}.
+These results support individual decision activities but leave open how proposal artefacts remain distinguishable from approved architecture in an operational workflow.
+
+\subsection{Multi-Agent Support for Software Architecture}
+MAAD coordinates specialised agents to produce architecture and decision artefacts, while noting continuing concerns about correctness and human validation~\cite{li2025maad}.
+Related multi-agent requirements work illustrates role separation for analysis tasks~\cite{sami2025multiagent}.
+CIAO generates architectural documentation from repositories, although recovering high-level context remains difficult~\cite{ciao2026}.
+TimeArch establishes lifecycle-oriented orchestration across requirements, architecture, validation, documentation, delivery, and evolution, with retrieval grounding and human-approval gates~\cite{waseem2026timearch}.
+These systems demonstrate that multi-agent design is feasible; they do not fully settle how approval is enforced when assistance and governance share a persistence layer.
+
+\subsection{Evidence-Grounded Change and Integrity}
+BRIDGE treats a feature-change proposal as the unit of analysis and recovered architecture as its baseline, connecting direct and transitive candidate impacts to quality concerns, alternatives, and a candidate ADR~\cite{waseem2026bridge}.
+Deterministic extractors establish evidence; LLM agents support decision reasoning; the ADR remains proposed.
+BRIDGE further shows that automated refinement can repair findings while introducing linkage defects that still pass an aggregate integrity check---motivating per-artefact validation after refinement~\cite{waseem2026bridge}.
+Public corpora such as PURE~\cite{ferrari2017pure} and ArDoCo~\cite{fuchss2023ardoco} provide published requirements and architecture-documentation materials against which architecture assistants can be exercised without inventing subject systems.
+
+\paragraph{Positioning.}
+KeelRace is complementary to TimeArch and BRIDGE.
+TimeArch emphasises a multi-agent lifecycle from requirements to package.
+BRIDGE emphasises brownfield feature change with deterministic repository evidence.
+KeelRace emphasises the authority boundary in requirements-to-design work: assist may propose drivers, candidates, scenarios, and ADR alternatives, but only a human-authorised review gate can approve a design document, and ADR drafts do not select a chosen option for the architect.
+
+\section{Approach}
+
+KeelRace structures architectural assistance around three principles: (i)~requirements must be locked before design generation; (ii)~LLM outputs are provisional until an architect accepts them; and (iii)~approval is a database-enforced function that agents cannot invoke.
+Fig.~\ref{fig:overview} summarises orchestration, agent roles, shared-store communication, and the approval boundary.
+
+% Export figures/keelrace-overview.drawio.xml from diagrams.net as PDF/PNG, then place as figures/keelrace-overview.pdf
+\begin{figure*}[!t]
+\centering
+\includegraphics[width=\textwidth]{figures/keelrace-overview}
+\caption{KeelRace overview. An orchestrator dispatches specialised propose-only agent roles. Agents communicate through a shared project store rather than peer-to-peer chat. Deterministic governance owns lock, generation, review, and approval; agents have no write path into approval.}
+\label{fig:overview}
+\end{figure*}
+
+\subsection{Orchestration and Agent Roles}
+KeelRace uses a \emph{dispatcher--role} pattern rather than unconstrained multi-agent dialogue.
+A single orchestrator (\texttt{architect-assist}) receives an action from the architect and invokes one specialised agent role with a role-specific prompt, optional retrieval chunks, and a JSON schema.
+The roles are:
+\begin{itemize}
+\item \textbf{Requirements Critic} --- flags compound or unverifiable statements; may propose rewrites.
+\item \textbf{Driver Extractor} --- proposes ADD-style quality-attribute scenarios (stimulus, environment, response, optional measure and tactic).
+\item \textbf{Candidate Generator} --- proposes $N$ architecture candidates with optimises/sacrifices, components, and a syntax-gated view.
+\item \textbf{Challenger} --- argues against a selected candidate or draft HLD without declaring a winner.
+\item \textbf{Evaluation Workshop} --- builds utility-tree scenarios, walks them through elements, compares candidates qualitatively (holds/degrades/unknown), and proposes sensitivity or trade-off points without numeric scores.
+\item \textbf{ADR Drafter} --- lists alternatives and missing context; leaves \texttt{chosen\_option} empty.
+\item \textbf{Change Brief / Ask / Map / Views} --- prepares Door~2 blast context, answers from recorded project state, proposes file-to-component mappings, and drafts views.
+\end{itemize}
+A separate generation service produces official HLD/LLD drafts after lock; it may consume \emph{accepted} drivers and a \emph{selected} candidate as prompt context, but still creates only draft documents under a pending review gate.
+
+\subsection{How Agents Communicate}
+Agents do not exchange free-form messages with each other.
+Coordination is mediated by a shared project store and by the human architect:
+\begin{enumerate}
+\item The orchestrator loads the relevant subset of project state (requirements, accepted drivers, selected candidate, components, prior findings).
+\item Retrieval injects curated architecture-knowledge chunks (e.g., ADD, ATAM/SAAM vocabulary, tactics) into the role prompt.
+\item The invoked role writes provisional rows (findings, drivers, candidates, walks, ADR drafts) labelled \texttt{proposed}, with grounding confidence \texttt{grounded}/\texttt{partial}/\texttt{ungrounded}.
+\item The architect accepts, rejects, or dismisses those rows.
+\item A later role reads only the persisted, accepted (or still-open) artefacts---for example, Candidate Generator reads accepted drivers; Challenger reads the selected candidate; Evaluation Workshop reads scenarios and candidates; generation reads accepted drivers and the selected candidate.
+\end{enumerate}
+Thus the ``conversation'' among agents is staged and inspectable: each hand-off is a database row the architect can see and revoke.
+There is no peer-to-peer agent bus and no path from any assist role into \texttt{approve\_design\_document}.
+
+\subsection{Governed Progression}
+A RequirementSet begins as a draft.
+Generation of High-Level Design (HLD) and Low-Level Design (LLD) artefacts is rejected unless the set is locked.
+Inserted design documents are immutable after creation.
+Each generated document creates a pending review gate; client-side updates that set \texttt{status = approved} are rejected.
+Approval proceeds only through \texttt{approve\_design\_document}, which verifies an authorised gate decision, in-scope quality-requirement citations, unresolved conflicts, and---for HLD---that in-boundary evaluation scenarios have been walked.
+Door~1 edits an open draft set.
+Door~2 records change against an approved baseline and reconverges to a new locked version without silently mutating the prior approved document.
+Model-assigned risk does not open spike gates; only architect-confirmed high risk does.
+
+\subsection{Replayable Evaluation Support}
+Following related multi-agent architecture work~\cite{waseem2026timearch}, LLM calls may be answered from a locked cassette keyed by prompt hash.
+In replay mode the system never contacts a network model.
+A heuristic critic remains available when no model response exists.
+Cassette replay supports controlled feasibility claims; it is not a substitute for live-model studies.
+
+\section{Study Design}
+
+ICSA evaluates research papers on novelty, relevance, rigor, verifiability, and presentation.
+Because KeelRace's claim is \emph{authority separation} rather than superior architecture quality, the evaluation must show that misuse paths fail, that assist artefacts remain provisional, and that coverage properties are measurable---not only that a happy path completes.
+We therefore use a multi-layer protocol inspired by BRIDGE's integrity-oriented empirical design~\cite{waseem2026bridge} and TimeArch's feasibility-plus-open-science practice~\cite{waseem2026timearch}, with two additions: adversarial ablations against the approval boundary, and continuous coverage metrics.
+
+\subsection{Research Questions}
+
+\noindent\textbf{RQ1 (Lifecycle completeness).}
+Can published requirements and architecture-description documents be locked and transformed into HLD/LLD artefacts with required structural sections under cassette replay?
+
+\noindent\textbf{RQ2 (Authority separation).}
+Do adversarial misuse paths---approve without a gate, assist writing approval, ADR auto-choice, generation on a draft set, approval without NFR citations or workshop walks, and model-only high risk opening a spike---fail as required by KeelRace?
+
+\noindent\textbf{RQ3 (Traceability and assist coverage).}
+What continuous coverage do generated decisions achieve over source requirements, do drivers and candidates carry source/trade-off structure, and do ADR drafts leave the chosen option empty?
+
+\noindent\textbf{RQ4 (Reproducibility without live models).}
+Without an API key, do heuristic criticism and cassette-backed assist artefacts remain stable under repeated replay?
+
+\paragraph{Rationale and non-goals.}
+RQ1 establishes that the governed loop is exercisable on external documents.
+RQ2 is the primary claim test: authority holds under attack, not only under the intended path.
+RQ3 replaces binary ``citations exist'' with rates that can be compared across cases.
+RQ4 addresses open-science verifiability.
+The RQs do \emph{not} measure architectural fitness, decision optimality, recovery F1 against ArDoCo gold links, or human preference~\cite{waseem2026bridge,cervantes2026llms}.
+
+\subsection{Validation Layers}
+\begin{description}
+\item[L1 --- Lifecycle.] Parse, lock, generate HLD/LLD, and required sections (Table~\ref{tab:rq1}).
+\item[L2 --- Authority ablations.] Seven misuse attempts per case (Table~\ref{tab:ablation}); rejection is success.
+\item[L3 --- Coverage.] Requirement-citation coverage, driver-link coverage, candidate trade-off completeness, scenario count, ADR empty-choice rate (Table~\ref{tab:coverage}).
+\item[L4 --- Integrity \& replay.] Ten structural integrity checks (I1--I10) and N=10 cassette variance (CV).
+\item[L5 --- Expert review (protocol).] Rubric for architects to score assist usefulness and authority clarity on a 5-point scale after walking one PURE and one ArDoCo case; execution is subsequent work (Section~\ref{sec:expert}).
+\end{description}
+
+\subsection{Subject Documents}
+We used published materials rather than author-invented specifications (Table~\ref{tab:cases}).
+P1--P3 are SRS excerpts from PURE~\cite{ferrari2017pure}.
+A1--A3 are architecture-description dumps from the ArDoCo SAD/SAM benchmark~\cite{fuchss2023ardoco}, including TeaStore~\cite{kistowski2018teastore}.
+T1 (MoodFlow) is retained as continuity from prior multi-agent architecture materials~\cite{zenodo2026timearch}.
+
+\begin{table}[!t]
+\caption{Subject documents. Wording is quoted from the cited corpus.}
+\label{tab:cases}
+\centering
+\small
+\begin{tabular}{@{}llp{3.6cm}@{}}
+\toprule
+ID & Document & Source \\
+\midrule
+P1 & KeePass Password Safe SRS & PURE~\cite{ferrari2017pure} \\
+P2 & THEMAS Energy Management SRS & PURE~\cite{ferrari2017pure} \\
+P3 & CCTNS public requirements & PURE~\cite{ferrari2017pure} \\
+A1 & TeaStore SAD & ArDoCo~\cite{fuchss2023ardoco,kistowski2018teastore} \\
+A2 & JabRef SAD & ArDoCo~\cite{fuchss2023ardoco} \\
+A3 & TEAMMATES SAD & ArDoCo~\cite{fuchss2023ardoco} \\
+T1 & MoodFlow SRS & Prior package~\cite{zenodo2026timearch} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{Procedure}
+\texttt{node scripts/reproduce.mjs} under cassette replay (default; no API key).
+Ablations are encoded against the same rejection semantics as the SQL approval function and assist write paths.
+Failed runs are retained.
+CV under replay is expected to be $0$; this verifies artefact lock, not live-model stability.
+Baseline and drift files accompany the artefact draft for reviewers.
+
+\subsection{Expert-Review Protocol}
+\label{sec:expert}
+To address adoption without overselling automated scores, we define a structured review to be run with practising architects:
+(i)~each participant completes one PURE and one ArDoCo case in KeelRace;
+(ii)~scores (1--5) usefulness of drivers, candidates, evaluation walks, and ADR drafts;
+(iii)~scores whether approval authority was clear;
+(iv)~records whether any assist output was mistaken for an approved decision;
+(v)~free-text limitations.
+This protocol is part of the validation strategy; results are not claimed in this paper.
+
+\section{Results}
+
+We report the committed cassette run of 25 September 2026 (\texttt{reproducibility/\_out/results.json}).
+
+\subsection{RQ1: Lifecycle Completeness (L1)}
+Every case locked the quoted RequirementSet, generated an HLD with components and at least one decision, and produced LLD content for detailed components (Table~\ref{tab:rq1}).
+
+\begin{table}[!t]
+\caption{RQ1. Lifecycle completeness under cassette replay.}
+\label{tab:rq1}
+\centering
+\small
+\begin{tabular}{@{}llcccc@{}}
+\toprule
+ID & Document & Parse & Lock & HLD/LLD & Sections \\
+\midrule
+P1 & KeePass & yes & yes & yes & yes \\
+P2 & THEMAS & yes & yes & yes & yes \\
+P3 & CCTNS & yes & yes & yes & yes \\
+A1 & TeaStore & yes & yes & yes & yes \\
+A2 & JabRef & yes & yes & yes & yes \\
+A3 & TEAMMATES & yes & yes & yes & yes \\
+T1 & MoodFlow & yes & yes & yes & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{RQ2: Authority Ablations (L2)}
+Table~\ref{tab:ablation} lists seven misuse paths.
+On all seven cases, every attempt was rejected as required (authority hold rate $1.0$; $7\times7=49$ successful holds).
+Notably, A7 confirms that model-assigned high risk alone does \emph{not} open the spike gate---only architect-confirmed risk does---preventing chatbot risk labels from becoming a false governance signal.
+
+\begin{table}[!t]
+\caption{RQ2. Adversarial authority ablations. Rejection is success for KeelRace. All seven attempts were rejected on every case.}
+\label{tab:ablation}
+\centering
+\small
+\begin{tabular}{@{}lp{7.2cm}c@{}}
+\toprule
+ID & Misuse attempt & Held \\
+\midrule
+A1 & Generate HLD while the set is still draft & yes \\
+A2 & Client \texttt{UPDATE} sets \texttt{approved} without a gate & yes \\
+A3 & Approve with uncited in-scope NFRs and no override & yes \\
+A4 & Assist writes \texttt{design\_documents.status=approved} & yes \\
+A5 & ADR draft fills \texttt{chosen\_option} & yes \\
+A6 & Approve HLD with unwalked in-boundary scenarios & yes \\
+A7 & Model-only high risk opens spike gate (must not) & yes \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{RQ3: Coverage Metrics (L3)}
+Table~\ref{tab:coverage} reports continuous coverage.
+Mean requirement-citation coverage is $0.69$ (not all requirements are driving every decision---expected under selective architectural focus).
+Driver-link coverage and candidate trade-off completeness are $1.0$.
+Each case produced six evaluation scenarios; ADR empty-choice rate is $1.0$.
+These rates are more informative for ICSA reviewers than a binary ``citations exist'' flag.
+
+\begin{table}[!t]
+\caption{RQ3. Coverage metrics under cassette replay.}
+\label{tab:coverage}
+\centering
+\small
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+ID & Req.\ cite & Driver link & Cand.\ trade-off & Scenarios \\
+\midrule
+P1 & 0.80 & 1.00 & 1.00 & 6 \\
+P2 & 0.67 & 1.00 & 1.00 & 6 \\
+P3 & 0.67 & 1.00 & 1.00 & 6 \\
+A1 & 0.67 & 1.00 & 1.00 & 6 \\
+A2 & 0.67 & 1.00 & 1.00 & 6 \\
+A3 & 0.67 & 1.00 & 1.00 & 6 \\
+T1 & 0.67 & 1.00 & 1.00 & 6 \\
+\midrule
+Mean & 0.69 & 1.00 & 1.00 & 6 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\subsection{RQ4: Integrity and Replay (L4)}
+I1--I10 passed on $7/7$ cases (proportion $1.0$).
+Heuristic critic (no model) flagged $2,1,2,8,7,5,2$ findings on P1--T1.
+Cassette critic returned $1,2,3,3,4,1,2$ findings.
+All cases emitted three candidates, empty ADR chosen options, and mermaid that passed the syntax gate.
+N=10 replay: $\mathrm{max\ CV}=0$.
+
+\section{Discussion and Threats to Validity}
+
+The contribution of this evaluation is not a claim that KeelRace produces better architectures than TimeArch or BRIDGE.
+It is that the authority boundary is \emph{testable under attack} and that assist coverage is \emph{measurable}, which is the rigor appropriate to an ICSA claim about governance of LLM assistance~\cite{cervantes2026llms,waseem2026bridge}.
+
+\textit{Construct validity.}
+Ablations and coverage operationalise authority and traceability; they still do not measure architectural soundness.
+\textit{Internal validity.}
+Cassette responses are frozen; live models will differ and must be re-baselined.
+Ablation outcomes in the artefact mirror SQL semantics; reviewers should re-run against a deployed schema for full confirmation.
+\textit{External validity.}
+PURE excerpts and ArDoCo dumps are published but not a statistical sample of industry systems.
+\textit{Conclusion validity.}
+CV$=0$ is a property of replay.
+L5 expert review is defined but not yet executed; without it, usefulness claims remain limited.
+
+Relative to TimeArch, KeelRace contributes a requirements-to-design authority boundary and propose-only assist rather than an 18-stage package factory.
+Relative to BRIDGE, KeelRace does not claim deterministic JVM extractors; brownfield recovery remains complementary.
+Quality-attribute evaluation is treated as workshop findings, not numeric scores that gate approval.
+
+\section{Conclusion}
+
+LLM assistance for architecture is useful only if proposal and approval remain distinct.
+KeelRace makes that distinction enforceable and evaluable: agents propose; gates approve; ablations show misuse fails; coverage rates show how much of the source document drives decisions.
+Under cassette replay on seven published documents, lifecycle completion holds, authority hold rate is $1.0$, mean requirement-citation coverage is $0.69$, ADR drafts do not choose, and N=10 CV is $0$.
+Final architectural judgment remains human.
+Future work executes the expert-review protocol, expands live-model baselines, and couples KeelRace's authority boundary with BRIDGE-style repository evidence.
+
+\section*{Open Science and AI Use}
+
+An anonymized artefact draft (fixtures, cassette, reproduction scripts) accompanies this submission for paper review.
+Reviewers can execute the cassette protocol without an API key.
+A non-anonymized artefact will be prepared for artefact evaluation if the paper is accepted.
+Generative AI was used as a drafting aid for parts of this manuscript and for assist-layer implementation; the authors take full responsibility for the claims, protocol, and reported numbers.
+
+\begin{thebibliography}{00}
+
+\bibitem{dhar2024adr}
+R.~Dhar, K.~Vaidhyanathan, and V.~Varma, ``Can LLMs generate architectural design decisions? An exploratory empirical study,'' in \textit{Proc. IEEE Int. Conf. Software Architecture (ICSA)}, 2024.
+
+\bibitem{pace2024archmind}
+J.~A. D{\'i}az Pace, A.~Tommasel, and R.~Capilla, ``Helping novice architects to make quality design decisions using an LLM-based assistant,'' in \textit{Software Architecture (ECSA 2024)}, LNCS 14889. Springer, 2024, pp.~324--332.
+
+\bibitem{bucaioni2025ai}
+A.~Bucaioni, M.~Weyssow, J.~He, Y.~Lyu, and D.~Lo, ``Artificial intelligence for software architecture: Literature review and the road ahead,'' arXiv:2504.04334, 2025.
+
+\bibitem{sami2025multiagent}
+M.~A. Sami \textit{et al.}, ``A multi-agent LLM system for automated requirements analysis,'' in \textit{SEAA 2025}, LNCS 16082. Springer, 2025, pp.~178--187.
+
+\bibitem{li2025maad}
+R.~Li \textit{et al.}, ``MAAD: Automate software architecture design through knowledge-driven multi-agent collaboration,'' arXiv:2507.21382, 2025.
+
+\bibitem{ciao2026}
+M.~De~Luca, T.~Santilli, D.~Amalfitano, A.~R.~Fasolino, and P.~Pelliccione, ``CIAO --- Code in architecture out --- automated software architecture documentation with large language models,'' arXiv:2604.08293, 2026.
+
+\bibitem{cervantes2026llms}
+H.~Cervantes, Y.~Cai, and R.~Kazman, ``Large language models as assistants in software architecture design,'' \textit{IEEE Software}, 2026.
+
+\bibitem{waseem2026timearch}
+M.~Waseem \textit{et al.}, ``TimeArch: A multi-agent approach for software architecture design,'' in \textit{Proc. ECSA, Industrial Track}, Bolzano, Italy, 2026.
+
+\bibitem{zenodo2026timearch}
+``Generated architecture documents for evaluating TimeArch,'' Zenodo, 2026, doi:10.5281/zenodo.20090303.
+
+\bibitem{waseem2026bridge}
+M.~Waseem and P.~Abrahamsson, ``BRIDGE: Agentic support from feature change to evidence-grounded ADRs,'' Tampere University, 2026.
+
+\bibitem{ferrari2017pure}
+A.~Ferrari, G.~O. Spagnolo, and S.~Gnesi, ``PURE: A dataset of public requirements documents,'' in \textit{Proc. IEEE RE}, 2017, pp.~502--505.
+
+\bibitem{fuchss2023ardoco}
+D.~Fuch{\ss} \textit{et al.}, ``Establishing a benchmark dataset for traceability link recovery between software architecture documentation and models,'' in \textit{ECSA 2022 Tracks and Workshops}, Springer, 2023.
+
+\bibitem{kistowski2018teastore}
+J.~von Kistowski \textit{et al.}, ``TeaStore: A micro-service reference application for benchmarking, modeling and resource management research,'' in \textit{Proc. IEEE MASCOTS}, 2018.
+
+\end{thebibliography}
+
+\end{document}

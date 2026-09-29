@@ -1,0 +1,1367 @@
+{
+  "generated_at": "2026-09-24T22:12:23.597Z",
+  "mode": "replay",
+  "summary": {
+    "n_cases": 7,
+    "validation_layers": {
+      "L1_lifecycle": [
+        {
+          "id": "P1",
+          "name": "KeePass Password Safe",
+          "parse": true,
+          "lock": true,
+          "generated": true,
+          "sections": true
+        },
+        {
+          "id": "P2",
+          "name": "THEMAS Energy Management",
+          "parse": true,
+          "lock": true,
+          "generated": true,
+          "sections": true
+        },
+        {
+          "id": "P3",
+          "name": "CCTNS",
+          "parse": true,
+          "lock": true,
+          "generated": true,
+          "sections": true
+        },
+        {
+          "id": "A1",
+          "name": "TeaStore",
+          "parse": true,
+          "lock": true,
+          "generated": true,
+          "sections": true
+        },
+        {
+          "id": "A2",
+          "name": "JabRef",
+          "parse": true,
+          "lock": true,
+          "generated": true,
+          "sections": true
+        },
+        {
+          "id": "A3",
+          "name": "TEAMMATES",
+          "parse": true,
+          "lock": true,
+          "generated": true,
+          "sections": true
+        },
+        {
+          "id": "T1",
+          "name": "MoodFlow",
+          "parse": true,
+          "lock": true,
+          "generated": true,
+          "sections": true
+        }
+      ],
+      "L2_authority_ablations": {
+        "n_attempt_types": 7,
+        "mean_authority_hold_rate": 1,
+        "all_cases_hold": true,
+        "attempts": [
+          {
+            "id": "A1_generate_while_draft",
+            "description": "Generate HLD while RequirementSet is still draft",
+            "rejected_on_all_cases": true
+          },
+          {
+            "id": "A2_approve_without_gate",
+            "description": "Client UPDATE status=approved without an approved review gate",
+            "rejected_on_all_cases": true
+          },
+          {
+            "id": "A3_approve_without_nfr",
+            "description": "Approve HLD with in-scope NFRs uncited and no override",
+            "rejected_on_all_cases": true
+          },
+          {
+            "id": "A4_assist_sets_approved",
+            "description": "Assist role writes design_documents.status=approved",
+            "rejected_on_all_cases": true
+          },
+          {
+            "id": "A5_adr_auto_chooses",
+            "description": "ADR draft fills chosen_option for the architect",
+            "rejected_on_all_cases": true
+          },
+          {
+            "id": "A6_hld_without_workshop_walk",
+            "description": "Approve HLD while in-boundary scenarios have no walk",
+            "rejected_on_all_cases": true
+          },
+          {
+            "id": "A7_model_risk_alone_blocks",
+            "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+            "rejected_on_all_cases": true
+          }
+        ]
+      },
+      "L3_coverage": {
+        "mean_requirement_citation_coverage": 0.6857142857142857,
+        "mean_driver_link_coverage": 1,
+        "mean_candidate_tradeoff_coverage": 1,
+        "mean_scenarios": 6,
+        "adr_empty_rate": 1,
+        "per_case": [
+          {
+            "id": "P1",
+            "requirement_citation_coverage": 0.8,
+            "requirements_in_scope": 5,
+            "requirements_cited": 4,
+            "driver_link_coverage": 1,
+            "drivers_n": 2,
+            "drivers_linked": 2,
+            "candidate_tradeoff_coverage": 1,
+            "candidates_n": 3,
+            "scenarios_n": 6,
+            "adr_choice_empty": true
+          },
+          {
+            "id": "P2",
+            "requirement_citation_coverage": 0.6666666666666666,
+            "requirements_in_scope": 3,
+            "requirements_cited": 2,
+            "driver_link_coverage": 1,
+            "drivers_n": 2,
+            "drivers_linked": 2,
+            "candidate_tradeoff_coverage": 1,
+            "candidates_n": 3,
+            "scenarios_n": 6,
+            "adr_choice_empty": true
+          },
+          {
+            "id": "P3",
+            "requirement_citation_coverage": 0.6666666666666666,
+            "requirements_in_scope": 6,
+            "requirements_cited": 4,
+            "driver_link_coverage": 1,
+            "drivers_n": 2,
+            "drivers_linked": 2,
+            "candidate_tradeoff_coverage": 1,
+            "candidates_n": 3,
+            "scenarios_n": 6,
+            "adr_choice_empty": true
+          },
+          {
+            "id": "A1",
+            "requirement_citation_coverage": 0.6666666666666666,
+            "requirements_in_scope": 6,
+            "requirements_cited": 4,
+            "driver_link_coverage": 1,
+            "drivers_n": 2,
+            "drivers_linked": 2,
+            "candidate_tradeoff_coverage": 1,
+            "candidates_n": 3,
+            "scenarios_n": 6,
+            "adr_choice_empty": true
+          },
+          {
+            "id": "A2",
+            "requirement_citation_coverage": 0.6666666666666666,
+            "requirements_in_scope": 6,
+            "requirements_cited": 4,
+            "driver_link_coverage": 1,
+            "drivers_n": 2,
+            "drivers_linked": 2,
+            "candidate_tradeoff_coverage": 1,
+            "candidates_n": 3,
+            "scenarios_n": 6,
+            "adr_choice_empty": true
+          },
+          {
+            "id": "A3",
+            "requirement_citation_coverage": 0.6666666666666666,
+            "requirements_in_scope": 6,
+            "requirements_cited": 4,
+            "driver_link_coverage": 1,
+            "drivers_n": 2,
+            "drivers_linked": 2,
+            "candidate_tradeoff_coverage": 1,
+            "candidates_n": 3,
+            "scenarios_n": 6,
+            "adr_choice_empty": true
+          },
+          {
+            "id": "T1",
+            "requirement_citation_coverage": 0.6666666666666666,
+            "requirements_in_scope": 3,
+            "requirements_cited": 2,
+            "driver_link_coverage": 1,
+            "drivers_n": 2,
+            "drivers_linked": 2,
+            "candidate_tradeoff_coverage": 1,
+            "candidates_n": 3,
+            "scenarios_n": 6,
+            "adr_choice_empty": true
+          }
+        ]
+      },
+      "L4_integrity_proportion": {
+        "I1": 1,
+        "I2": 1,
+        "I3": 1,
+        "I4": 1,
+        "I5": 1,
+        "I6": 1,
+        "I7": 1,
+        "I8": 1,
+        "I9": 1,
+        "I10": 1
+      }
+    },
+    "rq1": [
+      {
+        "id": "P1",
+        "name": "KeePass Password Safe",
+        "parse": true,
+        "lock": true,
+        "generated": true,
+        "sections": true
+      },
+      {
+        "id": "P2",
+        "name": "THEMAS Energy Management",
+        "parse": true,
+        "lock": true,
+        "generated": true,
+        "sections": true
+      },
+      {
+        "id": "P3",
+        "name": "CCTNS",
+        "parse": true,
+        "lock": true,
+        "generated": true,
+        "sections": true
+      },
+      {
+        "id": "A1",
+        "name": "TeaStore",
+        "parse": true,
+        "lock": true,
+        "generated": true,
+        "sections": true
+      },
+      {
+        "id": "A2",
+        "name": "JabRef",
+        "parse": true,
+        "lock": true,
+        "generated": true,
+        "sections": true
+      },
+      {
+        "id": "A3",
+        "name": "TEAMMATES",
+        "parse": true,
+        "lock": true,
+        "generated": true,
+        "sections": true
+      },
+      {
+        "id": "T1",
+        "name": "MoodFlow",
+        "parse": true,
+        "lock": true,
+        "generated": true,
+        "sections": true
+      }
+    ],
+    "integrity_proportion": {
+      "I1": 1,
+      "I2": 1,
+      "I3": 1,
+      "I4": 1,
+      "I5": 1,
+      "I6": 1,
+      "I7": 1,
+      "I8": 1,
+      "I9": 1,
+      "I10": 1
+    },
+    "coverage": {
+      "mean_requirement_citation_coverage": 0.6857142857142857,
+      "mean_driver_link_coverage": 1,
+      "mean_candidate_tradeoff_coverage": 1,
+      "mean_scenarios": 6,
+      "adr_empty_rate": 1,
+      "per_case": [
+        {
+          "id": "P1",
+          "requirement_citation_coverage": 0.8,
+          "requirements_in_scope": 5,
+          "requirements_cited": 4,
+          "driver_link_coverage": 1,
+          "drivers_n": 2,
+          "drivers_linked": 2,
+          "candidate_tradeoff_coverage": 1,
+          "candidates_n": 3,
+          "scenarios_n": 6,
+          "adr_choice_empty": true
+        },
+        {
+          "id": "P2",
+          "requirement_citation_coverage": 0.6666666666666666,
+          "requirements_in_scope": 3,
+          "requirements_cited": 2,
+          "driver_link_coverage": 1,
+          "drivers_n": 2,
+          "drivers_linked": 2,
+          "candidate_tradeoff_coverage": 1,
+          "candidates_n": 3,
+          "scenarios_n": 6,
+          "adr_choice_empty": true
+        },
+        {
+          "id": "P3",
+          "requirement_citation_coverage": 0.6666666666666666,
+          "requirements_in_scope": 6,
+          "requirements_cited": 4,
+          "driver_link_coverage": 1,
+          "drivers_n": 2,
+          "drivers_linked": 2,
+          "candidate_tradeoff_coverage": 1,
+          "candidates_n": 3,
+          "scenarios_n": 6,
+          "adr_choice_empty": true
+        },
+        {
+          "id": "A1",
+          "requirement_citation_coverage": 0.6666666666666666,
+          "requirements_in_scope": 6,
+          "requirements_cited": 4,
+          "driver_link_coverage": 1,
+          "drivers_n": 2,
+          "drivers_linked": 2,
+          "candidate_tradeoff_coverage": 1,
+          "candidates_n": 3,
+          "scenarios_n": 6,
+          "adr_choice_empty": true
+        },
+        {
+          "id": "A2",
+          "requirement_citation_coverage": 0.6666666666666666,
+          "requirements_in_scope": 6,
+          "requirements_cited": 4,
+          "driver_link_coverage": 1,
+          "drivers_n": 2,
+          "drivers_linked": 2,
+          "candidate_tradeoff_coverage": 1,
+          "candidates_n": 3,
+          "scenarios_n": 6,
+          "adr_choice_empty": true
+        },
+        {
+          "id": "A3",
+          "requirement_citation_coverage": 0.6666666666666666,
+          "requirements_in_scope": 6,
+          "requirements_cited": 4,
+          "driver_link_coverage": 1,
+          "drivers_n": 2,
+          "drivers_linked": 2,
+          "candidate_tradeoff_coverage": 1,
+          "candidates_n": 3,
+          "scenarios_n": 6,
+          "adr_choice_empty": true
+        },
+        {
+          "id": "T1",
+          "requirement_citation_coverage": 0.6666666666666666,
+          "requirements_in_scope": 3,
+          "requirements_cited": 2,
+          "driver_link_coverage": 1,
+          "drivers_n": 2,
+          "drivers_linked": 2,
+          "candidate_tradeoff_coverage": 1,
+          "candidates_n": 3,
+          "scenarios_n": 6,
+          "adr_choice_empty": true
+        }
+      ]
+    },
+    "ablations": {
+      "n_attempt_types": 7,
+      "mean_authority_hold_rate": 1,
+      "all_cases_hold": true,
+      "attempts": [
+        {
+          "id": "A1_generate_while_draft",
+          "description": "Generate HLD while RequirementSet is still draft",
+          "rejected_on_all_cases": true
+        },
+        {
+          "id": "A2_approve_without_gate",
+          "description": "Client UPDATE status=approved without an approved review gate",
+          "rejected_on_all_cases": true
+        },
+        {
+          "id": "A3_approve_without_nfr",
+          "description": "Approve HLD with in-scope NFRs uncited and no override",
+          "rejected_on_all_cases": true
+        },
+        {
+          "id": "A4_assist_sets_approved",
+          "description": "Assist role writes design_documents.status=approved",
+          "rejected_on_all_cases": true
+        },
+        {
+          "id": "A5_adr_auto_chooses",
+          "description": "ADR draft fills chosen_option for the architect",
+          "rejected_on_all_cases": true
+        },
+        {
+          "id": "A6_hld_without_workshop_walk",
+          "description": "Approve HLD while in-boundary scenarios have no walk",
+          "rejected_on_all_cases": true
+        },
+        {
+          "id": "A7_model_risk_alone_blocks",
+          "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+          "rejected_on_all_cases": true
+        }
+      ]
+    },
+    "rq4": {
+      "no_key_heuristic": [
+        {
+          "id": "P1",
+          "heuristic_findings": 2
+        },
+        {
+          "id": "P2",
+          "heuristic_findings": 1
+        },
+        {
+          "id": "P3",
+          "heuristic_findings": 2
+        },
+        {
+          "id": "A1",
+          "heuristic_findings": 8
+        },
+        {
+          "id": "A2",
+          "heuristic_findings": 7
+        },
+        {
+          "id": "A3",
+          "heuristic_findings": 5
+        },
+        {
+          "id": "T1",
+          "heuristic_findings": 2
+        }
+      ],
+      "cassette_critic": [
+        {
+          "id": "P1",
+          "critic_findings": 1,
+          "mermaid_ok": true
+        },
+        {
+          "id": "P2",
+          "critic_findings": 2,
+          "mermaid_ok": true
+        },
+        {
+          "id": "P3",
+          "critic_findings": 3,
+          "mermaid_ok": true
+        },
+        {
+          "id": "A1",
+          "critic_findings": 3,
+          "mermaid_ok": true
+        },
+        {
+          "id": "A2",
+          "critic_findings": 4,
+          "mermaid_ok": true
+        },
+        {
+          "id": "A3",
+          "critic_findings": 1,
+          "mermaid_ok": true
+        },
+        {
+          "id": "T1",
+          "critic_findings": 2,
+          "mermaid_ok": true
+        }
+      ]
+    },
+    "assist": [
+      {
+        "id": "P1",
+        "drivers": 2,
+        "candidates": 3,
+        "challenge_findings": 2,
+        "scenarios": 6,
+        "adr_choice_empty": true
+      },
+      {
+        "id": "P2",
+        "drivers": 2,
+        "candidates": 3,
+        "challenge_findings": 2,
+        "scenarios": 6,
+        "adr_choice_empty": true
+      },
+      {
+        "id": "P3",
+        "drivers": 2,
+        "candidates": 3,
+        "challenge_findings": 2,
+        "scenarios": 6,
+        "adr_choice_empty": true
+      },
+      {
+        "id": "A1",
+        "drivers": 2,
+        "candidates": 3,
+        "challenge_findings": 2,
+        "scenarios": 6,
+        "adr_choice_empty": true
+      },
+      {
+        "id": "A2",
+        "drivers": 2,
+        "candidates": 3,
+        "challenge_findings": 2,
+        "scenarios": 6,
+        "adr_choice_empty": true
+      },
+      {
+        "id": "A3",
+        "drivers": 2,
+        "candidates": 3,
+        "challenge_findings": 2,
+        "scenarios": 6,
+        "adr_choice_empty": true
+      },
+      {
+        "id": "T1",
+        "drivers": 2,
+        "candidates": 3,
+        "challenge_findings": 2,
+        "scenarios": 6,
+        "adr_choice_empty": true
+      }
+    ]
+  },
+  "variance": {
+    "n": 1,
+    "max_cv": 0,
+    "by_case": {
+      "P1": {
+        "critic_findings": {
+          "mean": 1,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "drivers": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "candidates": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "scenarios": {
+          "mean": 6,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        }
+      },
+      "P2": {
+        "critic_findings": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "drivers": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "candidates": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "scenarios": {
+          "mean": 6,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        }
+      },
+      "P3": {
+        "critic_findings": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "drivers": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "candidates": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "scenarios": {
+          "mean": 6,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        }
+      },
+      "A1": {
+        "critic_findings": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "drivers": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "candidates": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "scenarios": {
+          "mean": 6,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        }
+      },
+      "A2": {
+        "critic_findings": {
+          "mean": 4,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "drivers": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "candidates": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "scenarios": {
+          "mean": 6,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        }
+      },
+      "A3": {
+        "critic_findings": {
+          "mean": 1,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "drivers": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "candidates": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "scenarios": {
+          "mean": 6,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        }
+      },
+      "T1": {
+        "critic_findings": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "drivers": {
+          "mean": 2,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "candidates": {
+          "mean": 3,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        },
+        "scenarios": {
+          "mean": 6,
+          "sd": 0,
+          "cv": 0,
+          "n": 1
+        }
+      }
+    },
+    "pass": true
+  },
+  "rows": [
+    {
+      "id": "P1",
+      "name": "KeePass Password Safe",
+      "corpus": "PURE",
+      "parse": true,
+      "lock": true,
+      "generated": true,
+      "sections": true,
+      "critic_findings": 1,
+      "heuristic_findings": 2,
+      "drivers": 2,
+      "candidates": 3,
+      "challenge_findings": 2,
+      "scenarios": 6,
+      "views": 1,
+      "mermaid_ok": true,
+      "adr_choice_empty": true,
+      "ask_confidence": "grounded",
+      "brief_confidence": "partial",
+      "coverage": {
+        "requirement_citation_coverage": 0.8,
+        "requirements_in_scope": 5,
+        "requirements_cited": 4,
+        "driver_link_coverage": 1,
+        "drivers_n": 2,
+        "drivers_linked": 2,
+        "candidate_tradeoff_coverage": 1,
+        "candidates_n": 3,
+        "scenarios_n": 6,
+        "adr_choice_empty": true
+      },
+      "ablations": {
+        "attempts": [
+          {
+            "id": "A1_generate_while_draft",
+            "description": "Generate HLD while RequirementSet is still draft",
+            "rejected": true
+          },
+          {
+            "id": "A2_approve_without_gate",
+            "description": "Client UPDATE status=approved without an approved review gate",
+            "rejected": true
+          },
+          {
+            "id": "A3_approve_without_nfr",
+            "description": "Approve HLD with in-scope NFRs uncited and no override",
+            "rejected": true
+          },
+          {
+            "id": "A4_assist_sets_approved",
+            "description": "Assist role writes design_documents.status=approved",
+            "rejected": true
+          },
+          {
+            "id": "A5_adr_auto_chooses",
+            "description": "ADR draft fills chosen_option for the architect",
+            "rejected": true
+          },
+          {
+            "id": "A6_hld_without_workshop_walk",
+            "description": "Approve HLD while in-boundary scenarios have no walk",
+            "rejected": true
+          },
+          {
+            "id": "A7_model_risk_alone_blocks",
+            "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+            "rejected": true
+          }
+        ],
+        "n_attempts": 7,
+        "n_rejected": 7,
+        "authority_hold_rate": 1
+      },
+      "checks": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": true,
+        "I5": true,
+        "I6": true,
+        "I7": true,
+        "I8": true,
+        "I9": true,
+        "I10": true,
+        "I_mermaid": true,
+        "I_adr_empty_choice": true
+      }
+    },
+    {
+      "id": "P2",
+      "name": "THEMAS Energy Management",
+      "corpus": "PURE",
+      "parse": true,
+      "lock": true,
+      "generated": true,
+      "sections": true,
+      "critic_findings": 2,
+      "heuristic_findings": 1,
+      "drivers": 2,
+      "candidates": 3,
+      "challenge_findings": 2,
+      "scenarios": 6,
+      "views": 1,
+      "mermaid_ok": true,
+      "adr_choice_empty": true,
+      "ask_confidence": "grounded",
+      "brief_confidence": "partial",
+      "coverage": {
+        "requirement_citation_coverage": 0.6666666666666666,
+        "requirements_in_scope": 3,
+        "requirements_cited": 2,
+        "driver_link_coverage": 1,
+        "drivers_n": 2,
+        "drivers_linked": 2,
+        "candidate_tradeoff_coverage": 1,
+        "candidates_n": 3,
+        "scenarios_n": 6,
+        "adr_choice_empty": true
+      },
+      "ablations": {
+        "attempts": [
+          {
+            "id": "A1_generate_while_draft",
+            "description": "Generate HLD while RequirementSet is still draft",
+            "rejected": true
+          },
+          {
+            "id": "A2_approve_without_gate",
+            "description": "Client UPDATE status=approved without an approved review gate",
+            "rejected": true
+          },
+          {
+            "id": "A3_approve_without_nfr",
+            "description": "Approve HLD with in-scope NFRs uncited and no override",
+            "rejected": true
+          },
+          {
+            "id": "A4_assist_sets_approved",
+            "description": "Assist role writes design_documents.status=approved",
+            "rejected": true
+          },
+          {
+            "id": "A5_adr_auto_chooses",
+            "description": "ADR draft fills chosen_option for the architect",
+            "rejected": true
+          },
+          {
+            "id": "A6_hld_without_workshop_walk",
+            "description": "Approve HLD while in-boundary scenarios have no walk",
+            "rejected": true
+          },
+          {
+            "id": "A7_model_risk_alone_blocks",
+            "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+            "rejected": true
+          }
+        ],
+        "n_attempts": 7,
+        "n_rejected": 7,
+        "authority_hold_rate": 1
+      },
+      "checks": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": true,
+        "I5": true,
+        "I6": true,
+        "I7": true,
+        "I8": true,
+        "I9": true,
+        "I10": true,
+        "I_mermaid": true,
+        "I_adr_empty_choice": true
+      }
+    },
+    {
+      "id": "P3",
+      "name": "CCTNS",
+      "corpus": "PURE",
+      "parse": true,
+      "lock": true,
+      "generated": true,
+      "sections": true,
+      "critic_findings": 3,
+      "heuristic_findings": 2,
+      "drivers": 2,
+      "candidates": 3,
+      "challenge_findings": 2,
+      "scenarios": 6,
+      "views": 1,
+      "mermaid_ok": true,
+      "adr_choice_empty": true,
+      "ask_confidence": "grounded",
+      "brief_confidence": "partial",
+      "coverage": {
+        "requirement_citation_coverage": 0.6666666666666666,
+        "requirements_in_scope": 6,
+        "requirements_cited": 4,
+        "driver_link_coverage": 1,
+        "drivers_n": 2,
+        "drivers_linked": 2,
+        "candidate_tradeoff_coverage": 1,
+        "candidates_n": 3,
+        "scenarios_n": 6,
+        "adr_choice_empty": true
+      },
+      "ablations": {
+        "attempts": [
+          {
+            "id": "A1_generate_while_draft",
+            "description": "Generate HLD while RequirementSet is still draft",
+            "rejected": true
+          },
+          {
+            "id": "A2_approve_without_gate",
+            "description": "Client UPDATE status=approved without an approved review gate",
+            "rejected": true
+          },
+          {
+            "id": "A3_approve_without_nfr",
+            "description": "Approve HLD with in-scope NFRs uncited and no override",
+            "rejected": true
+          },
+          {
+            "id": "A4_assist_sets_approved",
+            "description": "Assist role writes design_documents.status=approved",
+            "rejected": true
+          },
+          {
+            "id": "A5_adr_auto_chooses",
+            "description": "ADR draft fills chosen_option for the architect",
+            "rejected": true
+          },
+          {
+            "id": "A6_hld_without_workshop_walk",
+            "description": "Approve HLD while in-boundary scenarios have no walk",
+            "rejected": true
+          },
+          {
+            "id": "A7_model_risk_alone_blocks",
+            "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+            "rejected": true
+          }
+        ],
+        "n_attempts": 7,
+        "n_rejected": 7,
+        "authority_hold_rate": 1
+      },
+      "checks": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": true,
+        "I5": true,
+        "I6": true,
+        "I7": true,
+        "I8": true,
+        "I9": true,
+        "I10": true,
+        "I_mermaid": true,
+        "I_adr_empty_choice": true
+      }
+    },
+    {
+      "id": "A1",
+      "name": "TeaStore",
+      "corpus": "ArDoCo",
+      "parse": true,
+      "lock": true,
+      "generated": true,
+      "sections": true,
+      "critic_findings": 3,
+      "heuristic_findings": 8,
+      "drivers": 2,
+      "candidates": 3,
+      "challenge_findings": 2,
+      "scenarios": 6,
+      "views": 1,
+      "mermaid_ok": true,
+      "adr_choice_empty": true,
+      "ask_confidence": "grounded",
+      "brief_confidence": "partial",
+      "coverage": {
+        "requirement_citation_coverage": 0.6666666666666666,
+        "requirements_in_scope": 6,
+        "requirements_cited": 4,
+        "driver_link_coverage": 1,
+        "drivers_n": 2,
+        "drivers_linked": 2,
+        "candidate_tradeoff_coverage": 1,
+        "candidates_n": 3,
+        "scenarios_n": 6,
+        "adr_choice_empty": true
+      },
+      "ablations": {
+        "attempts": [
+          {
+            "id": "A1_generate_while_draft",
+            "description": "Generate HLD while RequirementSet is still draft",
+            "rejected": true
+          },
+          {
+            "id": "A2_approve_without_gate",
+            "description": "Client UPDATE status=approved without an approved review gate",
+            "rejected": true
+          },
+          {
+            "id": "A3_approve_without_nfr",
+            "description": "Approve HLD with in-scope NFRs uncited and no override",
+            "rejected": true
+          },
+          {
+            "id": "A4_assist_sets_approved",
+            "description": "Assist role writes design_documents.status=approved",
+            "rejected": true
+          },
+          {
+            "id": "A5_adr_auto_chooses",
+            "description": "ADR draft fills chosen_option for the architect",
+            "rejected": true
+          },
+          {
+            "id": "A6_hld_without_workshop_walk",
+            "description": "Approve HLD while in-boundary scenarios have no walk",
+            "rejected": true
+          },
+          {
+            "id": "A7_model_risk_alone_blocks",
+            "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+            "rejected": true
+          }
+        ],
+        "n_attempts": 7,
+        "n_rejected": 7,
+        "authority_hold_rate": 1
+      },
+      "checks": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": true,
+        "I5": true,
+        "I6": true,
+        "I7": true,
+        "I8": true,
+        "I9": true,
+        "I10": true,
+        "I_mermaid": true,
+        "I_adr_empty_choice": true
+      }
+    },
+    {
+      "id": "A2",
+      "name": "JabRef",
+      "corpus": "ArDoCo",
+      "parse": true,
+      "lock": true,
+      "generated": true,
+      "sections": true,
+      "critic_findings": 4,
+      "heuristic_findings": 7,
+      "drivers": 2,
+      "candidates": 3,
+      "challenge_findings": 2,
+      "scenarios": 6,
+      "views": 1,
+      "mermaid_ok": true,
+      "adr_choice_empty": true,
+      "ask_confidence": "grounded",
+      "brief_confidence": "partial",
+      "coverage": {
+        "requirement_citation_coverage": 0.6666666666666666,
+        "requirements_in_scope": 6,
+        "requirements_cited": 4,
+        "driver_link_coverage": 1,
+        "drivers_n": 2,
+        "drivers_linked": 2,
+        "candidate_tradeoff_coverage": 1,
+        "candidates_n": 3,
+        "scenarios_n": 6,
+        "adr_choice_empty": true
+      },
+      "ablations": {
+        "attempts": [
+          {
+            "id": "A1_generate_while_draft",
+            "description": "Generate HLD while RequirementSet is still draft",
+            "rejected": true
+          },
+          {
+            "id": "A2_approve_without_gate",
+            "description": "Client UPDATE status=approved without an approved review gate",
+            "rejected": true
+          },
+          {
+            "id": "A3_approve_without_nfr",
+            "description": "Approve HLD with in-scope NFRs uncited and no override",
+            "rejected": true
+          },
+          {
+            "id": "A4_assist_sets_approved",
+            "description": "Assist role writes design_documents.status=approved",
+            "rejected": true
+          },
+          {
+            "id": "A5_adr_auto_chooses",
+            "description": "ADR draft fills chosen_option for the architect",
+            "rejected": true
+          },
+          {
+            "id": "A6_hld_without_workshop_walk",
+            "description": "Approve HLD while in-boundary scenarios have no walk",
+            "rejected": true
+          },
+          {
+            "id": "A7_model_risk_alone_blocks",
+            "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+            "rejected": true
+          }
+        ],
+        "n_attempts": 7,
+        "n_rejected": 7,
+        "authority_hold_rate": 1
+      },
+      "checks": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": true,
+        "I5": true,
+        "I6": true,
+        "I7": true,
+        "I8": true,
+        "I9": true,
+        "I10": true,
+        "I_mermaid": true,
+        "I_adr_empty_choice": true
+      }
+    },
+    {
+      "id": "A3",
+      "name": "TEAMMATES",
+      "corpus": "ArDoCo",
+      "parse": true,
+      "lock": true,
+      "generated": true,
+      "sections": true,
+      "critic_findings": 1,
+      "heuristic_findings": 5,
+      "drivers": 2,
+      "candidates": 3,
+      "challenge_findings": 2,
+      "scenarios": 6,
+      "views": 1,
+      "mermaid_ok": true,
+      "adr_choice_empty": true,
+      "ask_confidence": "grounded",
+      "brief_confidence": "partial",
+      "coverage": {
+        "requirement_citation_coverage": 0.6666666666666666,
+        "requirements_in_scope": 6,
+        "requirements_cited": 4,
+        "driver_link_coverage": 1,
+        "drivers_n": 2,
+        "drivers_linked": 2,
+        "candidate_tradeoff_coverage": 1,
+        "candidates_n": 3,
+        "scenarios_n": 6,
+        "adr_choice_empty": true
+      },
+      "ablations": {
+        "attempts": [
+          {
+            "id": "A1_generate_while_draft",
+            "description": "Generate HLD while RequirementSet is still draft",
+            "rejected": true
+          },
+          {
+            "id": "A2_approve_without_gate",
+            "description": "Client UPDATE status=approved without an approved review gate",
+            "rejected": true
+          },
+          {
+            "id": "A3_approve_without_nfr",
+            "description": "Approve HLD with in-scope NFRs uncited and no override",
+            "rejected": true
+          },
+          {
+            "id": "A4_assist_sets_approved",
+            "description": "Assist role writes design_documents.status=approved",
+            "rejected": true
+          },
+          {
+            "id": "A5_adr_auto_chooses",
+            "description": "ADR draft fills chosen_option for the architect",
+            "rejected": true
+          },
+          {
+            "id": "A6_hld_without_workshop_walk",
+            "description": "Approve HLD while in-boundary scenarios have no walk",
+            "rejected": true
+          },
+          {
+            "id": "A7_model_risk_alone_blocks",
+            "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+            "rejected": true
+          }
+        ],
+        "n_attempts": 7,
+        "n_rejected": 7,
+        "authority_hold_rate": 1
+      },
+      "checks": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": true,
+        "I5": true,
+        "I6": true,
+        "I7": true,
+        "I8": true,
+        "I9": true,
+        "I10": true,
+        "I_mermaid": true,
+        "I_adr_empty_choice": true
+      }
+    },
+    {
+      "id": "T1",
+      "name": "MoodFlow",
+      "corpus": "TimeArch",
+      "parse": true,
+      "lock": true,
+      "generated": true,
+      "sections": true,
+      "critic_findings": 2,
+      "heuristic_findings": 2,
+      "drivers": 2,
+      "candidates": 3,
+      "challenge_findings": 2,
+      "scenarios": 6,
+      "views": 1,
+      "mermaid_ok": true,
+      "adr_choice_empty": true,
+      "ask_confidence": "grounded",
+      "brief_confidence": "partial",
+      "coverage": {
+        "requirement_citation_coverage": 0.6666666666666666,
+        "requirements_in_scope": 3,
+        "requirements_cited": 2,
+        "driver_link_coverage": 1,
+        "drivers_n": 2,
+        "drivers_linked": 2,
+        "candidate_tradeoff_coverage": 1,
+        "candidates_n": 3,
+        "scenarios_n": 6,
+        "adr_choice_empty": true
+      },
+      "ablations": {
+        "attempts": [
+          {
+            "id": "A1_generate_while_draft",
+            "description": "Generate HLD while RequirementSet is still draft",
+            "rejected": true
+          },
+          {
+            "id": "A2_approve_without_gate",
+            "description": "Client UPDATE status=approved without an approved review gate",
+            "rejected": true
+          },
+          {
+            "id": "A3_approve_without_nfr",
+            "description": "Approve HLD with in-scope NFRs uncited and no override",
+            "rejected": true
+          },
+          {
+            "id": "A4_assist_sets_approved",
+            "description": "Assist role writes design_documents.status=approved",
+            "rejected": true
+          },
+          {
+            "id": "A5_adr_auto_chooses",
+            "description": "ADR draft fills chosen_option for the architect",
+            "rejected": true
+          },
+          {
+            "id": "A6_hld_without_workshop_walk",
+            "description": "Approve HLD while in-boundary scenarios have no walk",
+            "rejected": true
+          },
+          {
+            "id": "A7_model_risk_alone_blocks",
+            "description": "Model-assigned high risk alone opens spike gate (should NOT under KeelRace)",
+            "rejected": true
+          }
+        ],
+        "n_attempts": 7,
+        "n_rejected": 7,
+        "authority_hold_rate": 1
+      },
+      "checks": {
+        "I1": true,
+        "I2": true,
+        "I3": true,
+        "I4": true,
+        "I5": true,
+        "I6": true,
+        "I7": true,
+        "I8": true,
+        "I9": true,
+        "I10": true,
+        "I_mermaid": true,
+        "I_adr_empty_choice": true
+      }
+    }
+  ]
+}

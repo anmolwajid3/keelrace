@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>KeelRace — how to use this system</title>
+  <style>
+    :root {
+      --ink: #0f172a;
+      --muted: #475569;
+      --faint: #64748b;
+      --line: #e2e8f0;
+      --blue: #1f4fd8;
+      --blue-2: #4f46e5;
+      --paper: #ffffff;
+      --wash: #f4f6fb;
+      --ok: #0f766e;
+      --warn: #b45309;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: var(--wash); color: var(--ink);
+      font: 11.5pt/1.5 "Segoe UI", "Helvetica Neue", Helvetica, Arial, sans-serif; }
+    .page { max-width: 820px; margin: 0 auto; padding: 28px 32px 48px; }
+    .cover {
+      background: linear-gradient(145deg, #152a6e 0%, #1f4fd8 52%, #4f46e5 100%);
+      color: #fff; border-radius: 20px; padding: 48px 44px 40px; margin-bottom: 28px;
+    }
+    .cover .mark {
+      display: inline-grid; place-items: center; width: 36px; height: 36px;
+      background: #fff; color: var(--blue); font-weight: 800; border-radius: 10px; margin-bottom: 18px;
+    }
+    .cover h1 { font-size: 32pt; line-height: 1.1; margin: 0 0 12px; letter-spacing: -0.04em; }
+    .cover p { margin: 0; max-width: 38em; color: rgba(255,255,255,.88); }
+    .cover .meta { margin-top: 28px; font-size: 10pt; color: rgba(255,255,255,.7); }
+    h2 { font-size: 16pt; letter-spacing: -0.03em; margin: 28px 0 8px; }
+    h3 { font-size: 12.5pt; margin: 18px 0 6px; }
+    p { margin: 0 0 10px; color: var(--muted); }
+    ol.steps { margin: 8px 0 16px; padding-left: 22px; color: var(--ink); }
+    ol.steps li { margin: 6px 0; }
+    ol.steps strong { color: var(--ink); }
+    .call { background: #eef2ff; border-left: 4px solid var(--blue); padding: 10px 14px; border-radius: 0 10px 10px 0; margin: 12px 0 16px; color: var(--ink); }
+    .warn { background: #fff7ed; border-left-color: var(--warn); }
+    .ok { background: #f0fdfa; border-left-color: var(--ok); }
+    figure.shot { margin: 12px 0 8px; position: relative; }
+    figure.shot img {
+      width: 100%; border-radius: 12px; border: 1px solid var(--line);
+      box-shadow: 0 10px 28px rgba(15, 23, 42, .12); display: block;
+    }
+    .pin {
+      position: absolute; width: 22px; height: 22px; border-radius: 999px;
+      background: var(--blue); color: #fff; font-size: 11px; font-weight: 800;
+      display: grid; place-items: center; box-shadow: 0 0 0 3px #fff, 0 4px 10px rgba(31,79,216,.4);
+      transform: translate(-50%, -50%);
+    }
+    .legend { list-style: none; padding: 0; margin: 0 0 20px; }
+    .legend li { display: flex; gap: 10px; align-items: flex-start; margin: 6px 0; font-size: 10.5pt; color: var(--muted); }
+    .n {
+      flex: none; width: 22px; height: 22px; border-radius: 999px; background: var(--blue); color: #fff;
+      font-size: 11px; font-weight: 800; display: grid; place-items: center; margin-top: 1px;
+    }
+    .ui {
+      background: var(--paper); border: 1px solid var(--line); border-radius: 14px;
+      padding: 16px 18px; margin: 12px 0 16px; box-shadow: 0 6px 18px rgba(15,23,42,.06);
+    }
+    .ui h4 { margin: 0 0 8px; font-size: 11pt; }
+    .row { display: flex; gap: 8px; flex-wrap: wrap; margin: 8px 0; }
+    .field {
+      border: 1px solid var(--line); background: var(--wash); border-radius: 8px;
+      padding: 8px 10px; font-size: 10pt; color: var(--faint); min-width: 140px; flex: 1;
+    }
+    .btn {
+      display: inline-block; background: var(--blue); color: #fff; border-radius: 8px;
+      padding: 7px 12px; font-size: 10pt; font-weight: 650;
+    }
+    .btn.ghost { background: #fff; color: var(--ink); border: 1px solid var(--line); }
+    table { width: 100%; border-collapse: collapse; font-size: 10.5pt; margin: 8px 0 16px; }
+    th, td { border-bottom: 1px solid var(--line); text-align: left; padding: 7px 6px; vertical-align: top; }
+    th { color: var(--faint); font-weight: 650; font-size: 9.5pt; }
+    .toc a { color: var(--blue); text-decoration: none; }
+    .toc li { margin: 4px 0; }
+    .foot { margin-top: 32px; font-size: 9.5pt; color: var(--faint); }
+    figure.shot { display: none; }
+    @media print {
+      body { background: #fff; }
+      .page { max-width: none; padding: 0; }
+      .cover { break-after: page; border-radius: 0; min-height: 240mm; padding-top: 48mm; }
+      h2 { break-after: avoid; }
+      .ui, table { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <section class="cover">
+      <div class="mark">K</div>
+      <h1>How to use<br>KeelRace</h1>
+      <p>A click-by-click guide for architects. The first pass is seven pages, each finished before you leave it. Models may propose. You lock, cite, and approve. A confirmed decision becomes a standing rule the next change is checked against.</p>
+      <p class="meta">User guide  ·  KeelRace workspace  ·  Open from the sidebar as “User guide”</p>
+    </section>
+
+    <h2>What you will do</h2>
+    <ol class="toc">
+      <li><a href="#start">Sign in and create a project</a></li>
+      <li><a href="#set">Create a RequirementSet</a></li>
+      <li><a href="#enter">Enter requirements — import or add one by one</a></li>
+      <li><a href="#critic">Run critic and driver cards</a></li>
+      <li><a href="#lock">Lock and generate on Requirements</a></li>
+      <li><a href="#nfrs">Record quality rules</a></li>
+      <li><a href="#design">Attach the rules on Design Docs</a></li>
+      <li><a href="#review">Approve the map and the components</a></li>
+      <li><a href="#diagram">Prototype, skeleton, and zip</a></li>
+      <li><a href="#package">Snapshot and the architecture package</a></li>
+      <li><a href="#library">Library, standing rules, and change</a></li>
+    </ol>
+    <p class="call">LampCheck (Demo project) and How this works are a filled example. Do not treat them as your architecture. Agent test is for a live project you own, not the demo.</p>
+
+    <h2>The seven pages</h2>
+    <table>
+      <thead><tr><th></th><th>Page</th><th>On this page</th><th>Leave when</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Requirements</td><td>Lock the set, then generate the system map.</td><td>The map exists.</td></tr>
+        <tr><td>2</td><td>NFRs &amp; Risk</td><td>Record the quality rules.</td><td>At least one rule is saved.</td></tr>
+        <tr><td>3</td><td>Design Docs</td><td>Attach those rules to the map.</td><td>Review is the next page.</td></tr>
+        <tr><td>4</td><td>Review Queue</td><td>Approve the map, then the component designs.</td><td>Both are approved.</td></tr>
+        <tr><td>5</td><td>Diagram / Traceability</td><td>Prototype, skeleton, then download the zip.</td><td>The files are listed.</td></tr>
+        <tr><td>6</td><td>Snapshots</td><td>Capture the structure you have now.</td><td>A snapshot exists.</td></tr>
+        <tr><td>7</td><td>Package</td><td>Read the rules in force, the retired rules, and the settled questions. Export.</td><td>You have the file.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="start">1. Sign in and create a project</h2>
+    <ol class="steps">
+      <li>Open KeelRace. If you are not signed in, click <strong>Workspace</strong> or go to <strong>/login</strong>.</li>
+      <li>Enter your email and password. Click <strong>Sign in</strong>. First visit: <strong>Need an account? Sign up</strong>, confirm email, then sign in.</li>
+      <li>You land on <strong>Projects</strong>. Click the blue <strong>New project</strong> button (top right).</li>
+      <li>In the dialog, type a name (your product, not “test”). Click <strong>Create</strong>.</li>
+      <li>The new row is clickable. Click the name. You are now in that project’s workspace.</li>
+    </ol>
+    <figure class="shot">
+      <img src="guide/landing.png" alt="KeelRace home: Continue to projects" />
+      <span class="pin" style="left: 48%; top: 42%;">1</span>
+      <span class="pin" style="left: 90%; top: 6%;">2</span>
+    </figure>
+    <ol class="legend">
+      <li><span class="n">1</span> <span><strong>Continue to projects</strong> — workspace if you already have an account.</span></li>
+      <li><span class="n">2</span> <span><strong>Open projects / Workspace</strong> — same destination from the top bar.</span></li>
+    </ol>
+    <figure class="shot">
+      <img src="guide/requirements.png" alt="Workspace with New RequirementSet and Design loop" />
+      <span class="pin" style="left: 8%; top: 18%;">1</span>
+      <span class="pin" style="left: 22%; top: 18%;">2</span>
+      <span class="pin" style="left: 88%; top: 28%;">3</span>
+    </figure>
+    <ol class="legend">
+      <li><span class="n">1</span> <span>Left rail: <strong>Projects</strong>, <strong>Demo project</strong>, <strong>How this works</strong>, <strong>User guide</strong> (this PDF).</span></li>
+      <li><span class="n">2</span> <span><strong>In order</strong> — seven pages, once each: Requirements, NFRs &amp; Risk, Design Docs, Review Queue, Diagram / Traceability, Snapshots, Package.</span></li>
+      <li><span class="n">3</span> <span><strong>New RequirementSet</strong> — first click inside a new project.</span></li>
+    </ol>
+
+    <h2 id="set">2. Create a RequirementSet</h2>
+    <ol class="steps">
+      <li>On <strong>Requirements</strong>, click <strong>New RequirementSet</strong>.</li>
+      <li>A version chip appears, e.g. <strong>v1 draft</strong>. That is the working SRS. You can have several versions later; generation always uses a <em>locked</em> set.</li>
+      <li>Until it is locked you will see two ways to fill it: <strong>Import from a document</strong> and <strong>Add one requirement manually</strong>. You do not have to use both.</li>
+    </ol>
+    <p class="call">The critic buttons stay disabled until a set exists. Create the set first, then run assist.</p>
+
+    <h2 id="enter">3. Enter requirements</h2>
+    <p>Pick path A (import) or path B (type them). Mixing is allowed: import the bulk, then add the gaps by hand.</p>
+
+    <h3>Path A — Import from a document</h3>
+    <ol class="steps">
+      <li>Stay on Requirements with a <strong>draft</strong> set selected (not locked).</li>
+      <li>Find the card <strong>Import from a document</strong>.</li>
+      <li>Leave <strong>Upload .docx/.pdf</strong> selected, or click <strong>Paste text</strong> if you already copied the SRS.</li>
+      <li>Upload: click the file control, choose a <strong>.docx</strong> or <strong>.pdf</strong>. Paste: put the raw text in the box.</li>
+      <li>Click <strong>Extract &amp; parse</strong>. Wait. You get a review list, nothing is saved yet.</li>
+      <li>For each row: keep or clear the checkbox; edit <strong>Ref code</strong> (FR-1, CON-1, NFR-A); set type <strong>FR / NFR / CON</strong>; fix title and body.</li>
+      <li>Click <strong>Import N selected</strong>. FR and CON become requirements on this set. NFRs go to the <strong>NFRs &amp; Risk</strong> tab, not the FR list.</li>
+    </ol>
+    <div class="ui">
+      <h4>What that card looks like</h4>
+      <p style="margin:0 0 8px;color:var(--faint);font-size:10pt;">Import from a document — already have an SRS? Bring it in instead of retyping.</p>
+      <div class="row">
+        <span class="btn">Upload .docx/.pdf</span>
+        <span class="btn ghost">Paste text</span>
+      </div>
+      <div class="field">Choose File — no file chosen</div>
+      <div class="row"><span class="btn">Extract &amp; parse</span></div>
+      <p style="margin:8px 0 0;font-size:10pt;">After extract you will see checkboxes, ref codes, type dropdowns, titles, bodies, then <strong>Import N selected</strong>.</p>
+    </div>
+
+    <h3>Path B — Add one by one</h3>
+    <ol class="steps">
+      <li>On the same draft set, scroll to <strong>Add one requirement manually</strong>.</li>
+      <li>In <strong>Ref code</strong> type <code>FR-1</code> (or CON-1, NFR-1). Keep the prefix consistent; the UI filters by FR / NFR / CON from this code.</li>
+      <li>In <strong>Title</strong> type a short name, e.g. <code>Turn the lamp on and off</code>.</li>
+      <li>In <strong>Body</strong> type the shall-statement. One demand per row. If you need “and also”, add a second requirement.</li>
+      <li>Click <strong>Add</strong>. The card appears in the list below.</li>
+      <li>Repeat for each FR, CON, and any NFR you want as a requirement row. Extra quality rules can wait for NFRs &amp; Risk.</li>
+      <li>Pencil edits the row. Trash deletes it — only while the set is draft.</li>
+    </ol>
+    <div class="ui">
+      <h4>Add one requirement manually</h4>
+      <div class="row">
+        <div class="field">Ref code e.g. FR-1.1</div>
+        <div class="field">Title</div>
+      </div>
+      <div class="field" style="min-height:52px;">Body — the verifiable shall</div>
+      <div class="row"><span class="btn">Add</span></div>
+    </div>
+    <p class="call warn">After <strong>Lock</strong>, those fields disappear. You cannot silently edit a frozen SRS. Use <strong>Changes &amp; Signals</strong>.</p>
+
+    <h2 id="critic">4. Critic and drivers (still draft or after lock)</h2>
+    <p>You can run these as soon as the set has rows. They write proposals only.</p>
+    <ol class="steps">
+      <li>On Requirements, in <strong>Architect assist · propose only</strong>, click <strong>Run requirement critic</strong>.</li>
+      <li>Read each finding. <strong>Keep</strong> if you agree. <strong>Dismiss</strong> if the model is wrong (compound CON that is really one constraint).</li>
+      <li>If the set is still draft and there is a rewrite: <strong>Apply rewrite to draft</strong> updates that requirement’s body. You still own the wording.</li>
+      <li>Click <strong>Propose driver cards</strong>. Each card is stimulus / environment / response.</li>
+      <li>Click <strong>Accept driver</strong> for the ones that will shape the split. <strong>Reject</strong> scale-out or cloud if the SRS never asked.</li>
+      <li>Optional: paste workshop notes or attach a whiteboard photo, then <strong>Stage notes</strong>. Staging does not lock.</li>
+    </ol>
+    <figure class="shot">
+      <img src="guide/assist.png" alt="Architect assist with RAG library" />
+      <span class="pin" style="left: 8%; top: 48%;">1</span>
+      <span class="pin" style="left: 24%; top: 12%;">2</span>
+      <span class="pin" style="left: 55%; top: 48%;">3</span>
+    </figure>
+    <ol class="legend">
+      <li><span class="n">1</span> <span><strong>User guide</strong> — this PDF, always a new tab.</span></li>
+      <li><span class="n">2</span> <span><strong>Architect assist</strong> — same helpers as on Requirements, plus candidates, Ask, ATAM, mappings.</span></li>
+      <li><span class="n">3</span> <span><strong>RAG sources already loaded</strong> — expand a title to read the chunk. You do not upload a corpus to start.</span></li>
+    </ol>
+
+    <h2 id="lock">5. Lock, then generate — still on Requirements</h2>
+    <ol class="steps">
+      <li>On the RequirementSet card, click <strong>Lock</strong>. The badge becomes locked. Generation is rejected until this succeeds.</li>
+      <li>On that same card, click <strong>Generate HLD/LLD</strong>. Wait until the system map exists. Leave Requirements only after that.</li>
+      <li>Critic findings and driver cards are proposals. Accept the drivers that match the SRS. Reject a split the requirements never asked for. They do not approve the map.</li>
+    </ol>
+    <p class="call">This page is one visit: lock, then generate. The next page is NFRs &amp; Risk.</p>
+
+    <h2 id="nfrs">6. Quality rules</h2>
+    <ol class="steps">
+      <li>Open <strong>NFRs &amp; Risk</strong>.</li>
+      <li>Name: e.g. <code>Local secret storage</code>. Description: what must stay true. Scope: usually <strong>Project-wide</strong>.</li>
+      <li>Click <strong>Add NFR</strong>. Repeat for each quality rule.</li>
+      <li>If import already created NFR rows, use those. Do not add a second copy.</li>
+    </ol>
+    <figure class="shot">
+      <img src="guide/nfrs.png" alt="NFRs and Risk add form" />
+      <span class="pin" style="left: 22%; top: 20%;">1</span>
+      <span class="pin" style="left: 48%; top: 42%;">2</span>
+      <span class="pin" style="left: 22%; top: 52%;">3</span>
+    </figure>
+    <ol class="legend">
+      <li><span class="n">1</span> <span>Open <strong>NFRs &amp; Risk</strong>.</span></li>
+      <li><span class="n">2</span> <span>Fill <strong>Name</strong> and <strong>Description</strong>.</span></li>
+      <li><span class="n">3</span> <span>Click <strong>Add NFR</strong>. Uncited NFRs block Approve later unless you override in the open.</span></li>
+    </ol>
+
+    <h2 id="design">7. Design Docs — attach the rules, once</h2>
+    <ol class="steps">
+      <li>Open <strong>Design Docs</strong>. Read the system map.</li>
+      <li>Optional: <strong>Propose 3 candidates</strong>, select one baseline, discard the others, then run devil’s advocate. A selected candidate is not an approved map. There is no quality score.</li>
+      <li>If a yellow box lists uncited quality rules, attach them to a decision, or record an override in the open.</li>
+      <li>Leave for <strong>Review Queue</strong>. Prototype and Skeleton are not on this page.</li>
+    </ol>
+    <figure class="shot">
+      <img src="guide/design.png" alt="Design Docs candidate actions" />
+      <span class="pin" style="left: 22%; top: 22%;">1</span>
+      <span class="pin" style="left: 40%; top: 48%;">2</span>
+      <span class="pin" style="left: 52%; top: 48%;">3</span>
+    </figure>
+    <ol class="legend">
+      <li><span class="n">1</span> <span><strong>Design Docs</strong>.</span></li>
+      <li><span class="n">2</span> <span><strong>Propose 3 candidates</strong> — before you treat one HLD as inevitable.</span></li>
+      <li><span class="n">3</span> <span><strong>Devil's advocate</strong> — after a baseline exists (selected candidate or generated HLD).</span></li>
+    </ol>
+    <p class="call ok">Generation uses accepted drivers and the selected candidate when those exist. It still does not approve the document.</p>
+
+    <h2 id="review">8. Review — approve the map, then the components</h2>
+    <ol class="steps">
+      <li>Open <strong>Review Queue</strong>. Stay here until both approvals are done.</li>
+      <li>Read the system map. <strong>Approve</strong> when the split is good enough to be official. <strong>Request changes</strong> needs a comment. <strong>Reject</strong> when this generate should not be used.</li>
+      <li>If Approve fails, read the message: uncited quality rule, missing spike, unconfirmed reconciliation, or an option that breaks a standing rule.</li>
+      <li>A break stops approval until you rewrite the option, or you record a different decision that replaces the rule and you write why. The old rule stays in the ledger as replaced.</li>
+      <li>Approve the component designs on this same page. A model cannot set the status.</li>
+    </ol>
+    <figure class="shot">
+      <img src="guide/review.png" alt="Review Queue Approve the HLD" />
+      <span class="pin" style="left: 22%; top: 28%;">1</span>
+      <span class="pin" style="left: 38%; top: 52%;">2</span>
+      <span class="pin" style="left: 48%; top: 52%;">3</span>
+    </figure>
+    <ol class="legend">
+      <li><span class="n">1</span> <span><strong>Review Queue</strong> — the only door to official.</span></li>
+      <li><span class="n">2</span> <span><strong>Attach HLD quality rules</strong> if citations are missing.</span></li>
+      <li><span class="n">3</span> <span><strong>Approve the HLD</strong> — a person, not the model.</span></li>
+    </ol>
+
+    <h2 id="diagram">9. Diagram — prototype, skeleton, zip</h2>
+    <ol class="steps">
+      <li>Open <strong>Diagram / Traceability</strong>. This is the only place Prototype and Skeleton are created.</li>
+      <li>Click <strong>Prototype</strong>. You get a flow of the approved map.</li>
+      <li>Click <strong>Skeleton</strong>. Stub files appear under each component, linked by component id. The filename is not the identity.</li>
+      <li>Click <strong>Download zip</strong> on the generation row.</li>
+    </ol>
+
+    <h2 id="package">10. Snapshot, then the package</h2>
+    <ol class="steps">
+      <li>Open <strong>Snapshots</strong>. Capture the structure you have now.</li>
+      <li>Open <strong>Package</strong>. Read the preview, then export.</li>
+      <li>The first section is what you are accountable for: each rule still in force, and each rule that was retired, with the reason.</li>
+      <li>Settled questions list the answer that won and the answers that were turned down. Language, database product, and hosting are decisions only if they appear there.</li>
+    </ol>
+    <p class="call ok">The package is the brief you would defend in a review, and the list a later change is checked against. It is not a second copy of the screens you already clicked.</p>
+
+    <h2 id="after">What you click after approval</h2>
+    <table>
+      <thead><tr><th>Screen</th><th>What you click</th><th>What it is for</th></tr></thead>
+      <tbody>
+        <tr><td>Diagram / Traceability</td><td><strong>Prototype</strong>, then <strong>Skeleton</strong>, then <strong>Download zip</strong></td><td>The flow, the stub files, and a folder you can keep. Files link by component id.</td></tr>
+        <tr><td>Snapshots</td><td><strong>Capture</strong></td><td>Freeze this structure so a later change can be compared.</td></tr>
+        <tr><td>Package</td><td>Read the preview, then export</td><td>Rules still in force, rules retired and why, then the settled questions.</td></tr>
+        <tr><td>ADR Ledger</td><td>Type the chosen option, confirm the sentence, the ending, and what it covers</td><td>A standing rule. The copilot does not choose the winner.</td></tr>
+      </tbody>
+    </table>
+
+    <h2 id="library">11. Library — open it when the question shows up</h2>
+    <p>Library is not another pass through the seven pages. Each item answers one later question.</p>
+    <table>
+      <thead><tr><th>Open</th><th>When</th></tr></thead>
+      <tbody>
+        <tr><td>ADR Ledger</td><td>You confirm a standing rule: one sentence, the only ending it allows, and what it covers. The copilot may list alternatives. You type the chosen option.</td></tr>
+        <tr><td>Evidence map</td><td>Someone asks why a component exists. The answer is requirement, then decision, then file.</td></tr>
+        <tr><td>Drift &amp; Health</td><td>A file changed. It still holds a rule, or the change is architectural drift.</td></tr>
+        <tr><td>Changes &amp; Signals</td><td>The locked set must grow. Door 1 is a requested add, modify, or remove. Door 2 is something found later. Apply creates a new requirement-set version.</td></tr>
+        <tr><td>Contracts, debt, governance, teams, members, audit</td><td>An API shape, work you are leaving on purpose, where it runs, who owns a component, who may approve, or a check that the links still point at each other.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>When the SRS must change</h3>
+    <ol class="steps">
+      <li>Open <strong>Changes &amp; Signals</strong>.</li>
+      <li>Door 1: fill Description. Action <strong>add / modify / remove</strong>. For modify/remove pick the target requirement. Proposed text if you have it. <strong>Submit</strong>.</li>
+      <li>Door 2: click <strong>Door 2: Signals</strong>, describe what you found, <strong>Submit</strong>, then classify (defect vs requirement gap).</li>
+      <li>Optional: <strong>Write blast brief</strong> — a narrative, not triage.</li>
+      <li>Scope → reconverge → apply. That creates a <strong>new</strong> requirement-set version. You do not unlock and overwrite.</li>
+    </ol>
+    <figure class="shot">
+      <img src="guide/changes.png" alt="Changes Door 1 form" />
+      <span class="pin" style="left: 22%; top: 62%;">1</span>
+      <span class="pin" style="left: 40%; top: 38%;">2</span>
+      <span class="pin" style="left: 42%; top: 72%;">3</span>
+    </figure>
+    <ol class="legend">
+      <li><span class="n">1</span> <span><strong>Changes &amp; Signals</strong>.</span></li>
+      <li><span class="n">2</span> <span><strong>Write blast brief</strong> — impact story from the graph.</span></li>
+      <li><span class="n">3</span> <span>Door 1 form: description, add/modify/remove, proposed text, <strong>Submit</strong>.</span></li>
+    </ol>
+
+    <h2>Rules that do not move</h2>
+    <ul>
+      <li>Generate is rejected until the set is locked.</li>
+      <li>Approve is a person. It can fail on an uncited quality rule, a missing spike, or an option that breaks a standing rule.</li>
+      <li>Replacing a rule needs a different decision and a written reason. The old rule stays.</li>
+      <li>Assist never sets approved or locked.</li>
+      <li>Do not use a quality number as a gate.</li>
+      <li>Do not treat a filename as a component.</li>
+    </ul>
+    <p class="foot">KeelRace user guide — models propose, people decide. Rebuild this PDF with the screenshots in /guide after a UI change.</p>
+  </div>
+</body>
+</html>
